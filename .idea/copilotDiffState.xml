@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" />
+              <option name="originalContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;108dp&quot;&#10;    android:height=&quot;108dp&quot;&#10;    android:viewportWidth=&quot;108&quot;&#10;    android:viewportHeight=&quot;108&quot;&gt;&#10;    &lt;!-- Solid accessible blue background (flat, no noise) --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;#1E88E5&quot;&#10;        android:pathData=&quot;M0,0h108v108h-108z&quot; /&gt;&#10;&lt;/vector&gt;&#10;" />
+              <option name="updatedContent" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;108dp&quot;&#10;    android:height=&quot;108dp&quot;&#10;    android:viewportWidth=&quot;108&quot;&#10;    android:viewportHeight=&quot;108&quot;&gt;&#10;    &lt;!-- Transparent background so icon presents as a circle only --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;#00000000&quot;&#10;        android:pathData=&quot;M0,0h108v108h-108z&quot; /&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_foreground.xml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_foreground.xml" />
+              <option name="originalContent" value="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;108dp&quot;&#10;    android:height=&quot;108dp&quot;&#10;    android:viewportWidth=&quot;24&quot;&#10;    android:viewportHeight=&quot;24&quot;&gt;&#10;    &lt;!-- Single-color (white) phone handset - Material style path simplified --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;#FFFFFFFF&quot;&#10;        android:pathData=&quot;M6.62,10.79c1.44,2.83 3.76,5.15 6.59,6.59l2.2,-2.2c0.27,-0.27 0.67,-0.36 1.02,-0.24 1.12,0.37 2.33,0.57 3.57,0.57 0.55,0 1,0.45 1,1V20c0,0.55 -0.45,1 -1,1 -9.39,0 -17,-7.61 -17,-17 0,-0.55 0.45,-1 1,-1H5c0.55,0 1,0.45 1,1 0,1.25 0.2,2.45 0.57,3.57 0.11,0.35 0.03,0.74 -0.25,1.02l-2.2,2.2z&quot; /&gt;&#10;&lt;/vector&gt;" />
+              <option name="updatedContent" value="&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&#10;    android:width=&quot;108dp&quot;&#10;    android:height=&quot;108dp&quot;&#10;    android:viewportWidth=&quot;108&quot;&#10;    android:viewportHeight=&quot;108&quot;&gt;&#10;    &lt;!-- Solid circle (adaptive icon foreground). Background is transparent to show only this circle. --&gt;&#10;    &lt;path&#10;        android:fillColor=&quot;#1E88E5&quot;&#10;        android:fillType=&quot;nonZero&quot;&#10;        android:pathData=&quot;M54,6a48,48 0 1,0 0,96a48,48 0 1,0 0,-96&quot; /&gt;&#10;&lt;/vector&gt;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

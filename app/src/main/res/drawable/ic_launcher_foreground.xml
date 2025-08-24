@@ -1,0 +1,11 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Solid circle (adaptive icon foreground). Background is transparent to show only this circle. -->
+    <path
+        android:fillColor="#1E88E5"
+        android:fillType="nonZero"
+        android:pathData="M54,6a48,48 0 1,0 0,96a48,48 0 1,0 0,-96" />
+</vector>
