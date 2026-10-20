@@ -5,6 +5,7 @@ import android.util.Base64
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -134,6 +135,7 @@ private val right = TvButton("▶", "RIGHT", "KEY_RIGHT", Color(0xFF00B8D4), Col
 private val enter = TvButton("●", "OK", "KEY_ENTER", Color(0xFFD50000))
 private val volDown = TvButton("−", "VOL DOWN", "KEY_VOLDOWN", Color(0xFFE91E63))
 private val volUp = TvButton("+", "VOL UP", "KEY_VOLUP", Color(0xFF76FF03), Color.Black)
+private val back = TvButton("\u21A9\uFE0E", "BACK", "KEY_RETURN", Color(0xFF212121))
 
 // Tap = one step on release (nothing if the finger slides off). Hold past HOLD_DELAY_MS = repeat every REPEAT_MS, capped at
 // MAX_REPEATS so a stuck or accidental long touch cannot run the volume away (tremor).
@@ -221,14 +223,14 @@ fun TvScreen() {
         val diameter = minOf(maxWidth, maxHeight - 240.dp)
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(48.dp)) {
             DPad(diameter, press)
-            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-                listOf(volDown, volUp).forEach { b ->
+            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                listOf(volDown, back, volUp).forEach { b ->
                     Box(
                         Modifier
                             .weight(1f)
                             .fillMaxHeight()
                             .background(b.color, RoundedCornerShape(32.dp))
-                            .repeatOnHold(b.label) { press(b) },
+                            .then(if (b === back) Modifier.clickable { press(b) } else Modifier.repeatOnHold(b.label) { press(b) }), // back must never repeat
                         contentAlignment = Alignment.Center
                     ) { Glyph(b, size = 56.sp) }
                 }
