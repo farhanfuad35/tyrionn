@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import com.farhan.tyrion.ui.theme.TyrionTheme
@@ -80,18 +81,19 @@ private enum class Screen { HOME, CALL, TV }
 private val CallGreen = Color(0xFF00A650)
 private val TvBlue = Color(0xFF0057E7)
 
-// No text on purpose: colour is the only label. Clickable fires on release and cancels if the finger slides off.
+// Colour is the only label for her; the small text is for the caregiver. Clickable fires on release and cancels if the finger slides off.
 @Composable
 fun HomeScreen(onCall: () -> Unit = {}, onTv: () -> Unit = {}) {
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        listOf(CallGreen to onCall, TvBlue to onTv).forEach { (color, onClick) ->
+    Column(Modifier.fillMaxSize().safeDrawingPadding().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        listOf(Triple(CallGreen, "CALL", onCall), Triple(TvBlue, "TV", onTv)).forEach { (color, label, onClick) ->
             Box(
                 Modifier
                     .weight(1f)
                     .fillMaxWidth()
                     .background(color, RoundedCornerShape(32.dp))
-                    .clickable(onClick = onClick)
-            )
+                    .clickable(onClick = onClick),
+                contentAlignment = Alignment.Center
+            ) { Text(label, color = Color.White, fontSize = 14.sp) }
         }
     }
 }
