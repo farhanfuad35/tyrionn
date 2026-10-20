@@ -219,21 +219,32 @@ fun TvScreen() {
         remote.press(b.key)
     }
     BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding().padding(horizontal = 32.dp, vertical = 48.dp)) {
-        // Square pad no wider than the screen, always leaving room for the volume row.
-        val diameter = minOf(maxWidth, maxHeight - 240.dp)
+        // Square pad no wider than the screen, always leaving room for the volume row and the back bar below it.
+        val diameter = minOf(maxWidth, maxHeight - 340.dp)
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(48.dp)) {
             DPad(diameter, press)
-            Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                listOf(volDown, back, volUp).forEach { b ->
-                    Box(
-                        Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .background(b.color, RoundedCornerShape(32.dp))
-                            .then(if (b === back) Modifier.clickable { press(b) } else Modifier.repeatOnHold(b.label) { press(b) }), // back must never repeat
-                        contentAlignment = Alignment.Center
-                    ) { Glyph(b, size = 56.sp) }
+            Column(Modifier.fillMaxWidth().weight(1f), verticalArrangement = Arrangement.spacedBy(24.dp)) {
+                Row(Modifier.fillMaxWidth().weight(1f), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+                    listOf(volDown, volUp).forEach { b ->
+                        Box(
+                            Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                                .background(b.color, RoundedCornerShape(32.dp))
+                                .repeatOnHold(b.label) { press(b) },
+                            contentAlignment = Alignment.Center
+                        ) { Glyph(b, size = 56.sp) }
+                    }
                 }
+                // Plain click on purpose: back must never repeat on hold.
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(96.dp)
+                        .background(back.color, RoundedCornerShape(32.dp))
+                        .clickable { press(back) },
+                    contentAlignment = Alignment.Center
+                ) { Glyph(back, size = 40.sp) }
             }
         }
     }
