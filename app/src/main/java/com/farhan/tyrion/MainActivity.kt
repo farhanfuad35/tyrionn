@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -14,8 +15,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +49,15 @@ class MainActivity : ComponentActivity() {
         }
         enableEdgeToEdge()
         setContent {
-            TyrionTheme { DialerGrid(onDial = { dialNumber(it) }) }
+            TyrionTheme {
+                var screen by rememberSaveable { mutableStateOf(Screen.HOME) }
+                BackHandler(enabled = screen != Screen.HOME) { screen = Screen.HOME }
+                when (screen) {
+                    Screen.HOME -> HomeScreen(onCall = { screen = Screen.CALL }, onTv = { screen = Screen.TV })
+                    Screen.CALL -> DialerGrid(onDial = { dialNumber(it) })
+                    Screen.TV -> TvScreen()
+                }
+            }
         }
     }
 
@@ -58,6 +72,27 @@ class MainActivity : ComponentActivity() {
 
     private fun startCall(number: String) {
         startActivity(Intent(Intent.ACTION_CALL, "tel:$number".toUri()))
+    }
+}
+
+private enum class Screen { HOME, CALL, TV }
+
+private val CallGreen = Color(0xFF00A650)
+private val TvBlue = Color(0xFF0057E7)
+
+// No text on purpose: colour is the only label. Clickable fires on release and cancels if the finger slides off.
+@Composable
+fun HomeScreen(onCall: () -> Unit = {}, onTv: () -> Unit = {}) {
+    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        listOf(CallGreen to onCall, TvBlue to onTv).forEach { (color, onClick) ->
+            Box(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(color, RoundedCornerShape(32.dp))
+                    .clickable(onClick = onClick)
+            )
+        }
     }
 }
 
