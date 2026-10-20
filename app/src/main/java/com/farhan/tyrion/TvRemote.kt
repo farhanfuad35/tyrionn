@@ -105,15 +105,19 @@ class TvRemote(context: Context) {
 
 private data class TvButton(val glyph: String, val key: String, val color: Color, val glyphColor: Color = Color.White)
 
-// Colour carries the meaning (she cannot read); glyphs are a second cue. Left column volume, right column channel.
-private val volume = listOf(
-    TvButton("▲", "KEY_VOLUP", Color(0xFFFF6D00), Color.Black),
-    TvButton("🔇", "KEY_MUTE", Color(0xFFD50000)),
-    TvButton("▼", "KEY_VOLDOWN", Color(0xFF6A00FF)),
+// Colour carries the meaning (she cannot read); glyphs are a second cue. Cross layout like the physical remote's d-pad.
+private val dpad = listOf(
+    listOf(null, TvButton("▲", "KEY_UP", Color(0xFFFF6D00), Color.Black), null),
+    listOf(
+        TvButton("◀", "KEY_LEFT", Color(0xFF6A00FF)),
+        TvButton("●", "KEY_ENTER", Color(0xFFD50000)),
+        TvButton("▶", "KEY_RIGHT", Color(0xFF00B8D4), Color.Black),
+    ),
+    listOf(null, TvButton("▼", "KEY_DOWN", Color(0xFFFFD600), Color.Black), null),
 )
-private val channel = listOf(
-    TvButton("▲", "KEY_CHUP", Color(0xFFFFD600), Color.Black),
-    TvButton("▼", "KEY_CHDOWN", Color(0xFF00B8D4), Color.Black),
+private val volume = listOf(
+    TvButton("+", "KEY_VOLUP", Color(0xFF76FF03), Color.Black),
+    TvButton("−", "KEY_VOLDOWN", Color(0xFFE91E63)),
 )
 
 @Composable
@@ -122,23 +126,29 @@ fun TvScreen() {
     val remote = remember { TvRemote(context) }
     DisposableEffect(Unit) { onDispose { remote.close() } }
     val haptic = LocalHapticFeedback.current
-    Row(Modifier.fillMaxSize().padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        listOf(volume, channel).forEach { column ->
-            Column(Modifier.weight(1f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                column.forEach { b ->
-                    Box(
-                        Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .background(b.color, RoundedCornerShape(32.dp))
-                            .clickable {
-                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                remote.press(b.key)
-                            },
-                        contentAlignment = Alignment.Center
-                    ) { Text(b.glyph, color = b.glyphColor, fontSize = 72.sp) }
+    @Composable
+    fun RowScope.Cell(b: TvButton?) {
+        val cell = Modifier.weight(1f).fillMaxHeight()
+        if (b == null) Spacer(cell) else Box(
+            cell
+                .background(b.color, RoundedCornerShape(32.dp))
+                .clickable {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    remote.press(b.key)
+                },
+            contentAlignment = Alignment.Center
+        ) { Text(b.glyph, color = b.glyphColor, fontSize = 64.sp) }
+    }
+    Row(Modifier.fillMaxSize().padding(16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Column(Modifier.weight(3f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            dpad.forEach { row ->
+                Row(Modifier.weight(1f).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    row.forEach { Cell(it) }
                 }
             }
+        }
+        Column(Modifier.weight(1f).fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            volume.forEach { Row(Modifier.weight(1f).fillMaxWidth()) { Cell(it) } }
         }
     }
 }
